@@ -2,6 +2,7 @@ package com.arvind.crudapp.controllers;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import com.arvind.crudapp.services.iservices.IEmployeeServices;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 public class EmployeeController {
@@ -27,18 +29,18 @@ public class EmployeeController {
   // }
 
 
-    @GetMapping("employees")
+    @GetMapping("/employees")
     public List<Employees> getAllEmployees(){
         return employeeService.getEmployees();
     }
     
-    @PostMapping("employees")
+    @PostMapping("/employees")
     public String createEmployee(@RequestBody Employees emp) {
        return employeeService.createEmployee(emp);
         
     }
 
-    @DeleteMapping("employees/{id}")
+    @DeleteMapping("/employees/{id}")
     public String deleteEmployee(@PathVariable Long id){
       boolean response = employeeService.deleteEmployee(id);
       if(response)
@@ -49,14 +51,19 @@ public class EmployeeController {
       }
     }
 
-    @PutMapping("employees/{ids}")
-    public String updateEmployee(@PathVariable Long ids,@RequestBody Employees employee){
+    @PutMapping("/employees/{id}")
+    public String updateEmployee(@PathVariable Long id,@RequestBody Employees employee){
       
-      return employeeService.updateEmployee(ids, employee);
+      return employeeService.updateEmployee(id, employee);
     }
 
-    @GetMapping("employees/{id}")
+    @GetMapping("/employees/{id}")
     public Employees getIndicidualEmployee(@PathVariable Long id){
       return employeeService.getIndividualEmployee(id);
+    }
+
+     @GetMapping("/employees/employeeByEmail/{email}")
+    public Employees getEmployeeByEmail(@PathVariable String email) {
+        return employeeService.getEmployeeByEmail(email);
     }
 }

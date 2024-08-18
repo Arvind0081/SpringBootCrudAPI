@@ -13,4 +13,5 @@ public interface IEmployeeServices {
     boolean deleteEmployee(Long id);
     String updateEmployee(Long id,Employees employee);
     Employees getIndividualEmployee(Long id);
+ Employees getEmployeeByEmail(String email);
 }
