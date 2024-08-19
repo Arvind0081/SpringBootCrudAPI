@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arvind.crudapp.models.Employees;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin("http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api")
 public class EmployeeController {
 
   private final IEmployeeServices employeeService;
