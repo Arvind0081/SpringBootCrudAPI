@@ -19,12 +19,15 @@ public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
      @NotNull
     @Size(min = 1, max = 20)
     private String name;
+
     @NotNull
     @Email
     private String email;
+    
     @NotNull
     @Pattern(regexp="(^$|\\d{10})")
     private String phone;
