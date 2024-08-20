@@ -1,9 +1,16 @@
 package com.arvind.crudapp.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.arvind.crudapp.models.Employees;
 import com.arvind.crudapp.services.iservices.IEmployeeServices;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin("http://localhost:3000")
@@ -32,40 +40,49 @@ public class EmployeeController {
 
 
     @GetMapping("/employees")
-    public List<Employees> getAllEmployees(){
-        return employeeService.getEmployees();
+    public ResponseEntity<List<Employees>> getAllEmployees(){
+       List<Employees> res =employeeService.getEmployees();
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
     
     @PostMapping("/employees")
-    public String createEmployee(@RequestBody Employees emp) {
-       return employeeService.createEmployee(emp);
-        
+    public ResponseEntity<String> createEmployee(@Valid @RequestBody Employees emp) {
+       String res = employeeService.createEmployee(emp);
+       return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     @DeleteMapping("/employees/{id}")
-    public String deleteEmployee(@PathVariable Long id){
+    public ResponseEntity<String> deleteEmployee(@PathVariable Long id){
       boolean response = employeeService.deleteEmployee(id);
-      if(response)
-      {
-        return "Record Deleted Successfully";
-      }else{
-        return "Error while deleting";
-      }
+      return new ResponseEntity<>(response?"Record Deleted Successfully":"Error while deleting", HttpStatus.OK);
     }
 
     @PutMapping("/employees/{id}")
-    public String updateEmployee(@PathVariable Long id,@RequestBody Employees employee){
-      
-      return employeeService.updateEmployee(id, employee);
+    public ResponseEntity<String> updateEmployee(@PathVariable Long id,@Valid @RequestBody Employees employee){
+      String res= employeeService.updateEmployee(id, employee);
+      return new ResponseEntity<>(res,HttpStatus.OK);
     }
 
     @GetMapping("/employees/{id}")
-    public Employees getIndicidualEmployee(@PathVariable Long id){
-      return employeeService.getIndividualEmployee(id);
+    public ResponseEntity<Employees> getIndicidualEmployee(@PathVariable Long id){
+      Employees emp=employeeService.getIndividualEmployee(id);
+      return new ResponseEntity<>(emp,HttpStatus.OK);
     }
 
      @GetMapping("/employees/employeeByEmail/{email}")
-    public Employees getEmployeeByEmail(@PathVariable String email) {
-        return employeeService.getEmployeeByEmail(email);
+    public ResponseEntity<Employees> getEmployeeByEmail(@PathVariable String email) {
+      Employees emp= employeeService.getEmployeeByEmail(email);
+        return new ResponseEntity<>(emp,HttpStatus.OK);
+    }
+// to display the annotation message
+     @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }
