@@ -6,7 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -16,20 +16,19 @@ import lombok.Data;
 @Table(name="EmployeeEntity")
 public class EmployeeEntity {
 
-    @Id
+   @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
-
-     @NotNull
-    @Size(min = 1, max = 20)
+   
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 2, message = "Name should have at least 2 characters")
     private String name;
 
-    @NotNull
-    @Email
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email is mandatory")
     private String email;
     
-    @NotNull
+    @NotBlank(message = "Phone Number is mandatory")
     @Pattern(regexp="(^$|\\d{10})")
     private String phone;
-  
 }
