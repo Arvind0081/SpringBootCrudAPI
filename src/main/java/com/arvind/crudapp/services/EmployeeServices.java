@@ -93,5 +93,14 @@ public class EmployeeServices implements IEmployeeServices{
       
      
   }
+
+   @Override
+   public Employees getEmployeeByName(String name) {
+      EmployeeEntity emp= employeeRepository.findByName(name);
+    
+         Employees employee=new Employees();
+         BeanUtils.copyProperties(emp,employee);
+         return employee;
+   }
  
 }
