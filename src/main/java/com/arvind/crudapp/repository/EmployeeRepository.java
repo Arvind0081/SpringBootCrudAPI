@@ -9,5 +9,6 @@ public interface EmployeeRepository extends JpaRepository<EmployeeEntity,Long> {
 
       // Custom method to find an EmployeeEntity by email
       EmployeeEntity findByEmail(String email);
+      EmployeeEntity findByName(String name);
     
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -74,6 +75,13 @@ public class EmployeeController {
       Employees emp= employeeService.getEmployeeByEmail(email);
         return new ResponseEntity<>(emp,HttpStatus.OK);
     }
+
+    @GetMapping("/employees/employeeByNameFromHeader")
+    public ResponseEntity<Employees> getEmployeeByName(@RequestHeader String name) {
+      Employees emp= employeeService.getEmployeeByName(name);
+        return new ResponseEntity<>(emp,HttpStatus.OK);
+    }
+
 // to display the annotation message
      @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
