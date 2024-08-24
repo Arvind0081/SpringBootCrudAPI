@@ -17,4 +17,9 @@
  - MySQL Driver -> to connect with database
  - Spring Data JPA ->  Hibernate ,DAO layer/ send receive data from database/repository
  - H2 Database -> Relational datbase
- - Lombok -> developers tool ,reduce boilerplate code 
+ - Lombok -> developers tool ,reduce boilerplate code
+
+* For OpenAPI 3 (Springdoc OpenAPI):
+
+Swagger UI: http://localhost:9090/swagger-ui.html
+OpenAPI documentation (JSON): http://localhost:9090/v3/api-docs
